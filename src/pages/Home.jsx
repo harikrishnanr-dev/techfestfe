@@ -9,7 +9,7 @@ function Home() {
 
     // Simulated login/logout handler (replace with real authentication logic)
     const handleLogin = () => setIsLoggedIn(true);
-    const handleLogout = () => setIsLoggedIn(false);
+c    const handleLogout = () => setIsLoggedIn(false);
 
     return (
         <>
