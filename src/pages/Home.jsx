@@ -5,11 +5,9 @@ import Footer from "../components/Footer";
 import { getEventApi } from "../services/allApi";
 
 function Home() {
-    // State to track user login status
-    const [isLogin, setIsLogin] = useState(false);
-    
     const [event, setEvent] = useState([]);
-    
+    const [categories, setCategories] = useState([]);
+
     const getEventitems = async () => {
         const result = await getEventApi();
         console.log(result);
@@ -17,11 +15,15 @@ function Home() {
     };
 
     useEffect(() => {
-        if (sessionStorage.getItem("token")) {
-            setIsLogin(true);
-        }
         getEventitems();
     }, []);
+
+    useEffect(() => {
+        if (event.length > 0) {
+            const uniqueCategories = [...new Set(event.map((e) => e.eventCategory))];
+            setCategories(uniqueCategories);
+        }
+    }, [event]);
 
     return (
         <>
@@ -47,24 +49,24 @@ function Home() {
                     </button>
                 </div>
             </div>
-            
+
             <div className='w-full bg-white py-16 px-4'>
-                <h1 className="text-[#00df9a] text-5xl text-center mb-8">Workshops</h1>
-                <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-                    <Cards category="workshop" events={event} isLoggedIn={isLogin} /> {/* Pass login state and event data */}
-                </div>
-
-                <h1 className="text-[#00df9a] text-5xl text-center mt-16 mb-8">Competitions</h1>
-                <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-                    <Cards category="competition" events={event} isLoggedIn={isLogin} /> {/* Pass login state and event data */}
-                </div>
-
-                <h1 className="text-[#00df9a] text-5xl text-center mt-16 mb-8">Events</h1>
-                <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-                    <Cards category="Technology"events={event} isLoggedIn={isLogin} /> {/* Pass login state and event data */}
-                </div>
+                {categories.length > 0 ? (
+                    categories.map((category, index) => (
+                        <div key={index}>
+                            <h1 className="text-[#00df9a] text-5xl text-center mb-8">
+                                {category.charAt(0).toUpperCase() + category.slice(1)}
+                            </h1>
+                            <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
+                                <Cards category={category} events={event} />
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-center">No categories available.</p>
+                )}
             </div>
-            
+
             <Footer />
         </>
     );

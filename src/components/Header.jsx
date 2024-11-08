@@ -1,18 +1,35 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
     const [nav, setNav] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     const handleNav = () => {
         setNav(!nav);
     };
 
     const toggleLogin = () => {
-        setIsLoggedIn(!isLoggedIn);
+        if (isLoggedIn) {
+            // Logout logic
+            sessionStorage.removeItem("token");
+            setIsLoggedIn(false);
+            navigate("/"); // Redirect to home page after logout
+        } else {
+            // Redirect to login page
+            navigate("/login");
+        }
     };
+    
+    useEffect(() => {
+        // Check if user is logged in when component mounts
+        if (sessionStorage.getItem("token")) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     return (
         <div className="bg-black flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white">

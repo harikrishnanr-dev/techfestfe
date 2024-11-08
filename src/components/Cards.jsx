@@ -10,8 +10,9 @@ import {
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
-export function Cards({ category, events, isLoggedIn }) {
+export function Cards({ category, events }) {
     const navigate = useNavigate();
+    const isLoggedIn = sessionStorage.getItem("token");
 
     // Filter events based on the passed category
     const filteredEvents = events.filter(event => event.eventCategory === category);
