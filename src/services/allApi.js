@@ -11,3 +11,8 @@ export const loginApi = async (userDetails) => {
     return await commonApi('POST',`${BASE_URL}/user/login`,userDetails,"")
     
 }
+
+
+export const getEventApi = async () => {
+    return await commonApi('GET',`${BASE_URL}/events`,"","")
+}

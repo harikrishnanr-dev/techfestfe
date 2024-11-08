@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Cards } from "../components/Cards";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { getEventApi } from "../services/allApi";
 
 function Home() {
     // State to track user login status
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
+    
+    const [event, setEvent] = useState([]);
+    
+    const getEventitems = async () => {
+        const result = await getEventApi();
+        console.log(result);
+        setEvent(result.data);
+    };
 
-    // Simulated login/logout handler (replace with real authentication logic)
-    const handleLogin = () => setIsLoggedIn(true);
-c    const handleLogout = () => setIsLoggedIn(false);
+    useEffect(() => {
+        if (sessionStorage.getItem("token")) {
+            setIsLogin(true);
+        }
+        getEventitems();
+    }, []);
 
     return (
         <>
@@ -39,17 +51,17 @@ c    const handleLogout = () => setIsLoggedIn(false);
             <div className='w-full bg-white py-16 px-4'>
                 <h1 className="text-[#00df9a] text-5xl text-center mb-8">Workshops</h1>
                 <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-                    <Cards category="workshop" isLoggedIn={isLoggedIn} /> {/* Pass login state */}
+                    <Cards category="workshop" events={event} isLoggedIn={isLogin} /> {/* Pass login state and event data */}
                 </div>
 
                 <h1 className="text-[#00df9a] text-5xl text-center mt-16 mb-8">Competitions</h1>
                 <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-                    <Cards category="competition" isLoggedIn={isLoggedIn} /> {/* Pass login state */}
+                    <Cards category="competition" events={event} isLoggedIn={isLogin} /> {/* Pass login state and event data */}
                 </div>
 
                 <h1 className="text-[#00df9a] text-5xl text-center mt-16 mb-8">Events</h1>
                 <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-                    <Cards category="event" isLoggedIn={isLoggedIn} /> {/* Pass login state */}
+                    <Cards category="Technology"events={event} isLoggedIn={isLogin} /> {/* Pass login state and event data */}
                 </div>
             </div>
             
