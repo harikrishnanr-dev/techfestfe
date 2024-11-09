@@ -10,6 +10,7 @@ import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Table from './components/Table';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       {/* Define routes here */}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/table" element={<Table/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Login register="register" />} />
         <Route path="/dashboard" element={<Dashboard />} />

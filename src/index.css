@@ -3,4 +3,10 @@
 @tailwind utilities;
 body {
     background-color: #000300;
+    margin: 0; /* Ensure no margin causing initial space */
   }
+  
+  .container {
+    padding-top: 0; /* Adjust top padding if needed */
+  }
+  
